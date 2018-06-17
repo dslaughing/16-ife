@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>666</title>
+	</head>
+	<body>
+		<style>
+			div{
+				border:1px solid black;
+				display:flex;
+				margin:10px 2.5px;
+				padding:5px;
+				justify-content: space-around;
+				
+			}
+			form{margin-top:50px;text-align: center;}
+			.outside{width:500px;margin:50px auto}
+			.inside{padding:10px 20px;}
+		</style>
+		<div class="outside" id="tree">
+			<div id="two">
+				<div id="four">
+					<div class="inside" id="eight"></div>
+					<div class="inside" id="nine"></div>
+				</div>
+				<div id="five">
+					<div class="inside" id="ten"></div>
+					<div class="inside" id="eleven"></div>				
+				</div>
+			</div>
+			
+			<div id="three">
+				<div id="six">
+					<div class="inside" id="twelve"></div>
+					<div class="inside" id="thirteen"></div>
+				</div>
+				<div id="seven">
+					<div class="inside" id="fourteen"></div>
+					<div class="inside" id="fifteen"></div>					
+				</div>
+			</div>
+		</div>
+		
+		<form>
+			<input type="button" value="前序排列" id="fs">
+			<input type="button" value="中序排列" id="ms">
+			<input type="button" value="后序排列" id="bs">
+		</form>
+		
+		
+		<script>
+			function $(id){return document.querySelector(id)}
+			function turnBlue(e){
+				e.style.backgroundColor="blue";
+				for(var i=0,len=e.children.length;i<len;i++){
+						e.children[i].style.backgroundColor="white";
+				}	
+				setTimeout(function(){e.style.backgroundColor="white"},500)
+			}
+				
+			function Traverse(callback){
+				return function(){
+				var tree=$("#tree");
+				var data=[];				
+				var recurse;
+				switch(this.id){
+					case "fs":
+					recurse=function(current){
+						if(current != null){
+							data.push(current);
+							recurse(current.children[0]);
+							recurse(current.children[1]);
+						}
+					}
+					break;
+					case "ms":
+					recurse=function(current){
+						if(current != null){
+						recurse(current.children[0]);
+						data.push(current);
+						recurse(current.children[1]);							
+						}
+					}
+					break;
+					case "bs":
+					recurse=function(current){
+						if(current != null){
+						recurse(current.children[0]);
+						recurse(current.children[1]);
+						data.push(current)							
+						}			
+					}
+					break;
+				}
+				recurse(tree);
+				var i=0;
+				var timer=setInterval(function(){
+					callback(data[i]);
+					i++;
+					if(i==data.length){
+						clearInterval(timer);
+					}
+				},500)
+				}
+			}
+
+			$("#fs").onclick=Traverse(turnBlue);
+			$("#ms").onclick=Traverse(turnBlue);
+			$("#bs").onclick=Traverse(turnBlue);
+		</script>
+		
+	</body>
+</html>

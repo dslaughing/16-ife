@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>dslaughing 06</title>
+	</head>
+	<style>
+		form{
+			margin-top:50px;	
+		}
+		
+		#rightin{
+			margin-right:30px;
+		}
+		.toshow{
+			width:1200px;
+			height:600px;
+			margin:0 auto;
+			display:flex;
+			justify-content: space-between;
+			align-items: flex-end;
+
+			border:1px solid black;
+			background:antiquewhite
+		}
+		.toshow span{
+			text-align:center;
+			flex:1;
+			margin-right:5px;
+			background:red;
+			border:1px solid black;
+			color:white;
+		}
+		.showarr{
+			font-size:24px;
+			color:darkblue;
+			line-height:50px;
+			text-align:center;
+		}
+	</style>
+	<body>
+		<p>往文本框里输入10-100的数字，最多输入20个<br>
+			排序为较简单的冒泡排序，每个需要交换的当前元素会变绿色，因为设置了flag标识，则已经比较过的不会再比较，最后会把循环一次下来没进行交换的最后元素变黄</p>
+		<form>
+			
+			<input type="text" id="showinput">
+			<button id="leftin" type="button">左侧入</button>
+			<button id="rightin" type="button">右侧入</button>
+			<button id="leftout" type="button">左侧出</button>
+			<button id="rightout" type="button">右侧出</button>
+			<button id="sort" type="button">排序</button>
+		</form>
+		
+		<div class="showarr"></div>
+		<div class="toshow"></div>
+		
+	</body>
+	<script type="text/javascript" src="js/js 06.js" ></script>
+</html>

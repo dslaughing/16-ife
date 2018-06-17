@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>dslaughing 09</title>
+	</head>
+	<style>
+		#hobbybtn{
+			border-radius:5px;
+			background: white;
+			border:2px solid #eee;
+			margin-top:10px;
+			cursor: pointer;
+		}
+		#tag:focus{
+			box-shadow:0 0 10px 5px #7bade8;
+		}
+		.tagResult,.hobbyResult{
+			margin-top:25px;
+			display:flex;   
+			/*display:flex 能让子元素都有display:inline-block的表现 ，能够设置宽度和高度*/
+		}
+		.tagResult span,.hobbyResult span{
+			color:white;
+			min-width:50px;
+			line-height:50px;
+			text-align: center;
+			margin-right:10px;
+			padding:5px;
+		}
+		.tagResult span{background:deepskyblue}
+		.hobbyResult span{background:orange}
+		
+		/*.tagResult span:hover{
+			background:red;
+		}
+		.tagResult span:hover:before{
+			content:"点击删除"
+		}
+		.tagResult span:hover:after{
+			content:"?"
+		}*/
+		
+	</style>
+	<body>
+		
+		<p>输入标签内容，用空格逗号和回车能够输出内容到文本框下方</p>
+		<label for="tag">Tag:</label>
+		<input type="text" id="tag">
+		<div class="tagResult"></div>
+		
+		<p>点击按钮，可把内容用回车逗号顿号空格等符号来分隔，并显示在文本框下方</p>
+		<textarea class="hobby"></textarea>
+		<br>
+		<button type="button" id="hobbybtn">确认兴趣爱好</button>
+		<div class="hobbyResult"></div>
+		
+		<script src="js/public.js" ></script>
+		<script>
+			var tagarr=[];
+			var hobbyarr=[];
+			var tagdata=function(){
+				return $("#tag").value;
+			};
+			var hobbydata=function(){
+				return $(".hobby").value.split(/[\s,，、]+/).filter(function(d) {return d!=""});
+			};
+			var getClickIndex=function(e){
+				var node=getTarget(e);
+				if(node.className=="tagResult") {throw new Error("")}
+				return [].indexOf.call(node.parentNode.children,node)
+			};
+			
+			function render(arr){
+				if(arr==tagarr){
+					$(".tagResult").innerHTML=arr.map(function(d){
+						return "<span>"+d+"</span>"
+					}).join("");
+				}else if(arr==hobbyarr){
+					$(".hobbyResult").innerHTML=arr.map(function(d){
+						return "<span>"+d+"</span>"
+					}).join("");
+				}
+			}
+			
+			function publicPart(data,arr){
+				if(arr.indexOf(data)<0){
+					if(arr.length==10){
+						arr.shift();
+					}
+					arr.push(data);
+				}else{
+					alert("你输入了重复值:"+data)
+				}
+			}
+			
+			function deal(data,arr){
+				if(data==null){var arg=[].slice.call(arguments,2)[0];}
+				return function(e){
+					try{
+					if(data!=null){
+					var judgeData=data();
+					if(typeof judgeData=="string"){
+						if(/[\s,，]/.test(judgeData)){
+							if(/[^\s,，]/.test(judgeData[0])){
+								var toadd=judgeData.slice(0,-1);
+								publicPart(toadd,arr);
+								render(arr);
+							}
+						else{
+							alert("你输入了空值")
+						}
+						$("#tag").value="";
+					}
+					}else{
+						if(judgeData.length>0){
+							for(var i=0,len=judgeData.length;i<len;i++){
+								publicPart(judgeData[i],arr)
+								render(arr);
+							}
+						}else{
+							alert("你输入了空值")
+						}
+						$(".hobby").value="";
+					}
+				}else{
+					var oper=arg(e);
+					var spans=document.querySelectorAll(".tagResult span");
+				
+					switch(arr){
+						case tagarr:
+						arr.splice(oper,1);
+						render(arr);
+						break;
+						
+						case "over":
+						spans[oper].innerHTML="点击删除"+spans[oper].innerHTML;
+						spans[oper].style.background="red";
+						break;
+						
+						case "out":
+						spans[oper].innerHTML=spans[oper].innerHTML.substring(4);
+						spans[oper].style.background="deepskyblue";				
+						break;
+					}
+				}
+					}
+				catch(ex){
+					if (ex.message!=""){
+					alert(ex.message);						
+					}
+				}
+				}
+			}
+			$("#tag").onkeyup=deal(tagdata,tagarr);
+			$("#hobbybtn").onclick=deal(hobbydata,hobbyarr);
+			addHandler($(".tagResult"),"click",deal(null,tagarr,getClickIndex));
+			addHandler($(".tagResult"),"mouseover",deal(null,"over",getClickIndex));
+			addHandler($(".tagResult"),"mouseout",deal(null,"out",getClickIndex));
+		</script>
+	</body>
+</html>
