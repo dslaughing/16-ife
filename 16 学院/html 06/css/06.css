@@ -10,19 +10,10 @@ body{
 	width:968px;
 	height:1386px;
 	position:absolute;
-	top:50%;
 	left:50%;
 	background:white;
     margin-left:-420px;
-	margin-top:-280px;
-	/*width:980px;
-	height:980px;
-	position:absolute;
-	top:50%;
-	left:50%;
-	margin-left:-490px;
-	margin-top:-490px;
-	background:white;*/
+
 }
 /*顶部*/
 #header{
@@ -196,7 +187,6 @@ body{
 	color:#11456b;
 	margin-left:20px;
 	line-height:16px;
-/*	line-height:16px;*/
 }
 #tl3{
 	font-size:33px;
@@ -354,14 +344,6 @@ body{
 	bottom:135px;
 	z-index:2;
 }
-/*#quote2{
-	float:right;
-}
-#quote1{
-	float:left;
-	margin-left:-30px;
-	margin-top:20px;
-}*/
 /*footer*/
 #footer{
 	
